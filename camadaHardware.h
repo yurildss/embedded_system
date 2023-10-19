@@ -48,32 +48,27 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
   Wire.beginTransmission(MPU);
   Wire.write(0x3B);
   Wire.endTransmission(false);
-  Wire.requestFrom(MPU, 14, true); // Solicita os dados ao sensor
+  Wire.requestFrom(MPU, 6, true); // Solicita os dados ao sensor
 
-  float full_scale_gyr = 16.4;
   int full_scale_acc = 2048;
   /*
-    full_scale = 1 => fundo de escala do Giroscópio +/-250°/s = 131   | fundo de escala do Acelerometro +/-2g = 16384
-    full_scale = 2 => fundo de escala do Giroscópio +/-500°/s = 65.6  | fundo de escala do Acelerometro +/-4g = 8192
-    full_scale = 3 => fundo de escala do Giroscópio +/-1000°/s = 32.8 | fundo de escala do Acelerometro +/-8g = 4096
-    full_scale = 4 => fundo de escala do Giroscópio +/-2000°/s = 16.4 | fundo de escala do Acelerometro +/-16g = 2048
+    full_scale = 1 => fundo de escala do Acelerometro +/-2g = 16384
+    full_scale = 2 => fundo de escala do Acelerometro +/-4g = 8192
+    full_scale = 3 => fundo de escala do Acelerometro +/-8g = 4096
+    full_scale = 4 => fundo de escala do Acelerometro +/-16g = 2048
   */
 
   switch (full_scale) {
     case 1:
-      full_scale_gyr = 131;
       full_scale_acc = 16384;
       break;
     case 2:
-      full_scale_gyr = 65.6;
       full_scale_acc = 8192;
       break;
     case 3:
-      full_scale_gyr = 32.8;
       full_scale_acc = 4096;
       break;
     default:
-      full_scale_gyr = 16.4;
       full_scale_acc = 2048;
       break;
   }
@@ -81,10 +76,7 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
   sensorData[0] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccX
   sensorData[1] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccY
   sensorData[2] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccZ
-  sensorData[3] = (Wire.read() << 8 | Wire.read()); //Temperature
-  sensorData[4] = (Wire.read() << 8 | Wire.read())/full_scale_gyr; //GyrX
-  sensorData[5] = (Wire.read() << 8 | Wire.read())/full_scale_gyr; //GyrY
-  sensorData[6] = (Wire.read() << 8 | Wire.read())/full_scale_gyr; //GyrZ
 
   Wire.endTransmission();
 }
+  

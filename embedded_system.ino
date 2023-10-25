@@ -7,15 +7,15 @@ void setup() {
 }
 
 void loop() {
-  if(flag){
-  read_accelerometer();
   
-  // print out data
-  Serial.print("aX = "); Serial.print(accelerometer_x);
-  Serial.print(" | aY = "); Serial.print(accelerometer_y);
-  Serial.print(" | aZ = "); Serial.print(accelerometer_z);
-  Serial.println();
-  flag = false; 
+  if(fall_detected){
+    Serial.print("queda detectada");
+    fall_detected = false;
   }
-  delay(500);
+
+  if(flag_ready_to_read){
+    read_accelerometer();
+    flag_ready_to_read = false; 
+  }
+  
 }

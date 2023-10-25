@@ -1,5 +1,4 @@
 const int MPU_ADDRESS = 0x68; // I2C address of the MPU-6050
-
  /*
     full-scale 1 => +/-2g
     full-scale 2 => +/-4g
@@ -12,4 +11,4 @@ bool fall_detected = false;
 bool flag = false;
 float readed_i2c[2];
 
-int16_t accelerometer_x, accelerometer_y, accelerometer_z; // variables for accelerometer raw data
+float accelerometer_x, accelerometer_y, accelerometer_z; // variables for accelerometer raw data

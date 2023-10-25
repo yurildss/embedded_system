@@ -50,7 +50,7 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
   Wire.endTransmission(false);
   Wire.requestFrom(MPU, 6, true); // Solicita os dados ao sensor
 
-  int full_scale_acc = 2048;
+  float full_scale_acc = 2048;
   /*
     full_scale = 1 => fundo de escala do Acelerometro +/-2g = 16384
     full_scale = 2 => fundo de escala do Acelerometro +/-4g = 8192
@@ -72,10 +72,12 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
       full_scale_acc = 2048;
       break;
   }
-
-  sensorData[0] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccX
-  sensorData[1] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccY
-  sensorData[2] = (Wire.read() << 8 | Wire.read())/full_scale_acc; //AccZ
+  float AccX = (Wire.read() << 8 | Wire.read()); //AccX
+  float AccY = (Wire.read() << 8 | Wire.read()); //AccY
+  float AccZ = (Wire.read() << 8 | Wire.read()); //AccZ
+  sensorData[0] = float(AccX/full_scale_acc);
+  sensorData[1] = float(AccY/full_scale_acc);
+  sensorData[2] = float(AccZ/full_scale_acc);
 
   Wire.endTransmission();
 }

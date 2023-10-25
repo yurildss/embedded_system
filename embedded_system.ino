@@ -8,9 +8,7 @@ void setup() {
 
 void loop() {
   if(flag){
-   accelerometer_x = readed_i2c[0];
-  accelerometer_y = readed_i2c[1];
-  accelerometer_z = readed_i2c[2];
+  read_accelerometer();
   
   // print out data
   Serial.print("aX = "); Serial.print(accelerometer_x);
@@ -19,4 +17,5 @@ void loop() {
   Serial.println();
   flag = false; 
   }
+  delay(500);
 }

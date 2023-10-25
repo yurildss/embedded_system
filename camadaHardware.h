@@ -72,9 +72,14 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
       full_scale_acc = 2048;
       break;
   }
-  float AccX = float((Wire.read() << 8 | Wire.read())); //AccX
-  float AccY = float((Wire.read() << 8 | Wire.read())); //AccY
-  float AccZ = float((Wire.read() << 8 | Wire.read())); //AccZ
+  int16_t AccX = (Wire.read() << 8 | Wire.read()); //AccX
+  int16_t AccY = (Wire.read() << 8 | Wire.read()); //AccY
+  int16_t AccZ = (Wire.read() << 8 | Wire.read()); //AccZ
+
+  sensorData[0] = (float) AccX;
+  sensorData[1] = (float) AccY;
+  sensorData[2] = (float) AccZ; 
+
   sensorData[0] = AccX/full_scale_acc;
   sensorData[1] = AccY/full_scale_acc;
   sensorData[2] = AccZ/full_scale_acc;

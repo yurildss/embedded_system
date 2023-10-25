@@ -51,3 +51,35 @@ void config_fallDetect() {
 
   config_MPU_6050(MPU_ADDRESS, MPU_FULL_SCALE_RANGE);
 }
+
+void button_emergency_pressed() {
+  if (millis() - time_last_pressed >= DEBOUNCE_DELAY) {
+    
+    time_last_pressed = millis();
+
+    if(!first_click){
+      first_click = true;
+      first_click_time = millis();
+    }else{
+      first_click = false;
+      if (millis() - first_click_time <= DOUBLE_CLICK_DELAY) {
+        emergency_detected = true;
+      }
+      
+    }
+    
+  }
+}
+
+void config_emergencyButton() {
+  pinMode(EMERGENCY_BUTTON_PIN, INPUT_PULLUP); // Configura o pino como entrada com resistor de pull-up interno
+  attachInterrupt(digitalPinToInterrupt(EMERGENCY_BUTTON_PIN), button_emergency_pressed, FALLING); // Configura a interrupção para ocorrer na transição de HIGH para LOW
+}
+
+void send_fall_notification() {
+  Serial.print("queda detectada");
+}
+
+void send_emergency_notification() {
+  Serial.print("emergencia detectada");
+}

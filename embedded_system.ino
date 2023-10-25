@@ -4,13 +4,19 @@
 void setup() {
   Serial.begin(9600);
   config_fallDetect();
+  config_emergencyButton();
 }
 
 void loop() {
-  
+
   if(fall_detected){
-    Serial.print("queda detectada");
+    send_fall_notification();
     fall_detected = false;
+  }
+
+  if(emergency_detected){
+    send_emergency_notification();
+    emergency_detected = false;
   }
 
   if(flag_ready_to_read){

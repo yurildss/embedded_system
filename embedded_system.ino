@@ -7,7 +7,6 @@
 //++++++++++++++++++++++++++++++++++++
 const char* WIFISSID = "Yuri";
 const char* senha = "ym338link";
-String per = "";
 //++++++++++++++++++++++++++++++++++++
 // Definições de rede
 //++++++++++++++++++++++++++++++++++++
@@ -17,7 +16,7 @@ IPAddress subnet(255, 255, 255, 0);  //Defina a máscara de sub-rede
 IPAddress primaryDNS(192, 168, 1, 1);//opcional - DNS primário
 IPAddress secondaryDNS(8, 8, 8, 8);  //opcional - DNS secundário
 WebServer server(80);
-
+String per = "";
 void setup() {
   Serial.begin(9600);
   delay(400);
@@ -47,20 +46,24 @@ void setup() {
 }
 
 void loop() {
+  server.handleClient();
   char dado = Serial.read();
   
   if(dado=='c'){
     fall_detected = true;
+    per = "Queda detectada";
+  }
+
+   if(dado=='d'){
+    fall_detected = true;
+    per = "Emergencia acionada";
   }
   
   if(fall_detected){
-    per = "Queda detectada";
-    send_fall_notification(per);
     fall_detected = false;
   }
 
   if(emergency_detected){
-    send_emergency_notification();
     emergency_detected = false;
   }
 
@@ -71,12 +74,12 @@ void loop() {
   
 }
 
-String send_fall_notification(String per) {
-  server.handleClient();
+String send_fall_notification() {
+  
 }
 
 String send_emergency_notification() {
-  Serial.print("emergencia detectada");
+  
 }
 
 void handle_OnConnect() {

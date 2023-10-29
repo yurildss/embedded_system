@@ -17,6 +17,7 @@ IPAddress primaryDNS(192, 168, 1, 1);//opcional - DNS primário
 IPAddress secondaryDNS(8, 8, 8, 8);  //opcional - DNS secundário
 WebServer server(80);
 String per = "";
+
 void setup() {
   Serial.begin(9600);
   delay(400);
@@ -37,6 +38,12 @@ void setup() {
   Serial.print("endereço de IP para o web server: ");
   Serial.println(WiFi.localIP());
   server.on("/", handle_OnConnect);
+
+  server.on("/send-flag", HTTP_GET, []() {
+    Serial.println("Aviso atendido");
+    server.send(200, "text/plain", "Aviso atendido");
+  });
+  
   server.onNotFound(handle_NotFound);
   server.begin();
   Serial.println("HTTP servidor está funcionando");
@@ -71,6 +78,10 @@ void loop() {
     read_accelerometer();
     flag_ready_to_read = false; 
   }
+  
+}
+
+void receiveNotification(){
   
 }
 

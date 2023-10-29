@@ -103,6 +103,17 @@ String SendHTML(String per) {
     ptr += "</div>\n";
     ptr += "<div class=\"side-by-side humidity-text\">\n";
     ptr += (String)per;
+        // Adiciona um botão na página
+    ptr += "<button onclick=\"sendFlag()\">Visto</button>\n";
+    ptr += "<script>\n";
+      
+    ptr += "function sendFlag() {\n";
+    ptr += "  var xhr = new XMLHttpRequest();\n";
+    ptr += "  xhr.open('GET', '/send-flag', true);\n";
+    ptr += "  xhr.send();\n";
+    ptr += "}\n";
+    ptr += "</script>\n";
+
     ptr += "</div>\n";
     ptr += "</div>\n</body>\n</html>\n";
     return ptr;

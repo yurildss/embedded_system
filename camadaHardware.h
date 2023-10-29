@@ -44,7 +44,8 @@ void config_MPU_6050(int MPU, int full_scale) {
   Wire.endTransmission();
 }
 
-void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
+void read_i2c_MPU_6050(int MPU,  int full_scale) {
+
   Wire.beginTransmission(MPU);
   Wire.write(0x3B);
   Wire.endTransmission(false);
@@ -76,13 +77,13 @@ void read_i2c_MPU_6050(int MPU,  float* sensorData, int full_scale) {
   int16_t AccY = (Wire.read() << 8 | Wire.read()); //AccY
   int16_t AccZ = (Wire.read() << 8 | Wire.read()); //AccZ
 
-  sensorData[0] = (float) AccX;
-  sensorData[1] = (float) AccY;
-  sensorData[2] = (float) AccZ; 
+  float AccXAux = (float) AccX;
+  float AccYAux = (float) AccY;
+  float AccZAux = (float) AccZ; 
 
-  sensorData[0] = AccX/full_scale_acc;
-  sensorData[1] = AccY/full_scale_acc;
-  sensorData[2] = AccZ/full_scale_acc;
+  readed_i2c[0] = AccXAux/full_scale_acc;
+  readed_i2c[1] = AccYAux/full_scale_acc;
+  readed_i2c[2] = AccZAux/full_scale_acc;
 
   Wire.endTransmission();
 }

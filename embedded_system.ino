@@ -1,27 +1,14 @@
-
+#include "camadaHtml.h"
 #include "globalVars.h"
 #include "camadaSystem.h"
 #include <WebServer.h>
-//++++++++++++++++++++++++++++++++++++
-// Definições WIFI
-//++++++++++++++++++++++++++++++++++++
-const char* WIFISSID = "Yuri";
-const char* senha = "ym338link";
-//++++++++++++++++++++++++++++++++++++
-// Definições de rede
-//++++++++++++++++++++++++++++++++++++
-IPAddress local_IP(192, 168, 1, 50); //Defina o IP de acesso
-IPAddress gateway(192, 168, 1, 1);   //Defina o IP do roteador de internet
-IPAddress subnet(255, 255, 255, 0);  //Defina a máscara de sub-rede
-IPAddress primaryDNS(192, 168, 1, 1);//opcional - DNS primário
-IPAddress secondaryDNS(8, 8, 8, 8);  //opcional - DNS secundário
+
+
 WebServer server(80);
-String per = "";
+String msg = "";
 
 void setup() {
   Serial.begin(9600);
-  delay(400);
-
   // ip fixo
   if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
     Serial.println("STA Failed to configure");
@@ -58,19 +45,21 @@ void loop() {
   
   if(dado=='c'){
     fall_detected = true;
-    per = "Queda detectada";
+    msg = "Queda detectada";
   }
 
    if(dado=='d'){
     fall_detected = true;
-    per = "Emergencia acionada";
+    msg = "Emergencia acionada";
   }
   
   if(fall_detected){
+    msg = "Queda detectada";
     fall_detected = false;
   }
 
   if(emergency_detected){
+    msg = "Emergencia acionada";
     emergency_detected = false;
   }
 
@@ -81,20 +70,8 @@ void loop() {
   
 }
 
-void receiveNotification(){
-  
-}
-
-String send_fall_notification() {
-  
-}
-
-String send_emergency_notification() {
-  
-}
-
 void handle_OnConnect() {
-  server.send(200, "text/html", SendHTML(per));
+  server.send(200, "text/html", SendHTML(msg));
 }
 
 void handle_NotFound() {

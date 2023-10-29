@@ -1,4 +1,3 @@
-
 #include "globalVars.h"
 #include "camadaSystem.h"
 void setup() {
@@ -23,5 +22,4 @@ void loop() {
     read_accelerometer();
     flag_ready_to_read = false; 
   }
-  
 }

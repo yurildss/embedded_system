@@ -41,17 +41,6 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  char dado = Serial.read();
-  
-  if(dado=='c'){
-    fall_detected = true;
-    msg = "Queda detectada";
-  }
-
-   if(dado=='d'){
-    fall_detected = true;
-    msg = "Emergencia acionada";
-  }
   
   if(fall_detected){
     msg = "Queda detectada";
@@ -68,6 +57,20 @@ void loop() {
     flag_ready_to_read = false; 
   }
   
+}
+
+void teste(){
+    char dado = Serial.read();
+  
+  if(dado=='c'){
+    fall_detected = true;
+    msg = "Queda detectada";
+  }
+
+   if(dado=='d'){
+    fall_detected = true;
+    msg = "Emergencia acionada";
+  }
 }
 
 void handle_OnConnect() {
